@@ -11,9 +11,15 @@ module Exceptions
     end
   end
 
-  class NilStringError < InvalidStringError
+  class EmptyStringError < InvalidStringError
     def initialize(input)
-      super (input, "Not nil string", :nil_string)
+      super (input, "Not an empty string", :empty_string)
+    end
+  end
+
+  class TooLongStringError < InvalidStringError
+    def initialize(input)
+      super(input, "Too long string", :too_long_string)
     end
   end
 end
