@@ -1,0 +1,77 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# bin/app_cli
+
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
+
+require 'inverse_string'
+require 'colorize'
+
+class AppCLI
+  VERSION = InverseString::VERSION
+
+  def initialize
+    @verifier = Services::Verifier
+    @history = []
+  end
+
+  def run
+    show_banner
+    
+    loop do
+      command_process
+    end
+
+  rescue Interrupt
+    puts "\n Goodbye 🤠!".yellow
+  end
+
+  private
+
+  def show_banner
+    puts "=".blue.bold * 50
+    puts " String Inversor version #{VERSION}".green.bold
+    puts "=" * 50
+    puts "Commands: ".cyan
+    puts " [string] - String to invert"
+    puts " history  - Show history"
+    puts " help     - Show help"
+    puts " exit     - Exit program"
+    puts "-".blue.bold * 50
+  end
+
+  def command_process
+    print "> ".green
+    input = gets&.chomp&.strip
+
+    case input
+    when nil, /^exit$/i
+      exit_program
+    when /^history$/i
+      show_history
+    when /^help$/i
+      show_banner
+    when /^([^\s]+)\s*$/
+      process_string($1)
+    else
+      puts "Invalid command".red
+    end
+  end
+
+  def process_string(input)
+    begin
+      result = @verifier.verify(input)
+      @history << result
+
+      puts "#{result.description}".green
+
+    rescue Exceptions::InvalidStringError => e
+      puts "#{e.message}".red
+    end
+  end
+end
+
+if __FILE__ == $PROGRAM_NAME
+  AppCLI.new.run
+end

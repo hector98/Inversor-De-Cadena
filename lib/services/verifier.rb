@@ -10,12 +10,10 @@ module Services
 
       def verify(input, metadatos={})
         string = input.is_a?(Core::String) ? input : Core::String.new(input)
+        puts "Verifier: #{string.input} -> #{string.inverse_string}"
 
-        Core::Result.new(
-          string: string.input,
-          inverse_string: string.inverse_string,
-          metadatos: metadatos.merge(process_for: self.class.name)
-        )
+        Core::Result.new(string.input, string.inverse_string, metadatos)
+      end
     end
   end
 end

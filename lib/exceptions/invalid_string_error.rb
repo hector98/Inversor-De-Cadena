@@ -13,7 +13,7 @@ module Exceptions
 
   class EmptyStringError < InvalidStringError
     def initialize(input)
-      super (input, "Not an empty string", :empty_string)
+      super(input, "Not an empty string", :empty_string)
     end
   end
 

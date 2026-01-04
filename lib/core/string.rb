@@ -18,7 +18,7 @@ module Core
     def inverse_string
       input_reversed = ""
 
-      input.each_char { |char| input_reversed.prepend(char) }
+      @input.each_char { |char| input_reversed.prepend(char) }
 
       input_reversed
     end
