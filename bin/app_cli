@@ -52,10 +52,21 @@ class AppCLI
       show_history
     when /^help$/i
       show_banner
-    when /^([^\s]+)\s*$/
+    when /^(.*)$/
       process_string($1)
     else
       puts "Invalid command".red
+    end
+  end
+
+  def exit_program
+    puts "\n Goodbye 🤠!".yellow
+    exit
+  end
+
+  def show_history
+    @history.each do |result|
+      puts "#{result.description}".green
     end
   end
 
