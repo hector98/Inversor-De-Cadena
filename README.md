@@ -23,4 +23,7 @@ bundle install
 
 # Run the program
 ./bin/app_cli
+
+# Run the tests
+bundle exec rspec
 ```
