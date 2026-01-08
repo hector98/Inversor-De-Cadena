@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 # lib/core/string.rb
 
 require_relative '../exceptions/invalid_string_error'
 
 module Core
+  # String class
   class String
     LONGEST_STRING = 255
 
@@ -16,7 +19,7 @@ module Core
     end
 
     def inverse_string
-      input_reversed = ""
+      input_reversed = +''
 
       @input.each_char { |char| input_reversed.prepend(char) }
 
@@ -27,9 +30,9 @@ module Core
 
     def validate(input)
       if input.nil? || input.empty?
-        raise Exceptions::EmptyStringError.new(input)
+        raise Exceptions::EmptyStringError, input
       elsif input.length > LONGEST_STRING
-        raise Exceptions::TooLongStringError.new(input)
+        raise Exceptions::TooLongStringError, input
       else
         input
       end

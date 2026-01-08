@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/spec_helper.rb
 
 require 'simplecov'
@@ -15,7 +17,7 @@ SimpleCov.start do
   minimum_coverage 100
 end
 
-require_relative '../lib/inverse_string.rb'
+require_relative '../lib/inverse_string'
 
 RSpec.configure do |config|
   # Basic RSpec configuration
@@ -49,12 +51,11 @@ RSpec.configure do |config|
 
   # Hooks
   config.before(:suite) do
-    puts "Initializing test of InverseString".magenta
+    puts 'Initializing test of InverseString'.magenta
   end
 
   config.after(:suite) do
-    puts "Finalizing test of InverseString".green
+    puts 'Finalizing test of InverseString'.green
     puts "Code cobertura: #{SimpleCov.result.covered_percent.round(2)}%".green
   end
 end
-

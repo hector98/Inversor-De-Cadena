@@ -1,0 +1,35 @@
+name: Test String Inversor
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Obtener el código del repositorio
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+
+      # 2. Configurar Ruby
+      - name: Configurar Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.4'  # Versión que usa tu proyecto
+          bundler-cache: true  # Cache de gems para mayor velocidad
+
+      # 3. Instalar dependencias
+      - name: Instalar dependencias
+        run: bundle install
+
+      # 4. Ejecutar pruebas RSpec
+      - name: Ejecutar pruebas
+        run: bundle exec rspec
+
+      # 5. (Opcional) Ejecutar RuboCop para estilo de código
+      - name: Verificar estilo con RuboCop
+        run: bundle exec rubocop

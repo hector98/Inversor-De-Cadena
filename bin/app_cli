@@ -8,6 +8,7 @@ $LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 require 'inverse_string'
 require 'colorize'
 
+# AppCLI class
 class AppCLI
   VERSION = InverseString::VERSION
 
@@ -18,11 +19,10 @@ class AppCLI
 
   def run
     show_banner
-    
+
     loop do
       command_process
     end
-
   rescue Interrupt
     puts "\n Goodbye 🤠!".yellow
   end
@@ -30,32 +30,37 @@ class AppCLI
   private
 
   def show_banner
-    puts "=".blue.bold * 50
-    puts " String Inversor version #{VERSION}".green.bold
-    puts "=" * 50
-    puts "Commands: ".cyan
-    puts " [string] - String to invert"
-    puts " history  - Show history"
-    puts " help     - Show help"
-    puts " exit     - Exit program"
-    puts "-".blue.bold * 50
+    banner = <<~BANNER
+      #{'=' * 50}
+      #{"String Inversor version #{VERSION}".green.bold}
+      #{'=' * 50}
+      #{'Commands:'.cyan}
+      #{' [string] - String to invert'.cyan}
+      #{' --history  - Show history'.cyan}
+      #{' --help     - Show help'.cyan}
+      #{' --exit     - Exit program'.cyan}
+      #{'-' * 50}
+    BANNER
+    puts banner
   end
 
   def command_process
-    print "> ".green
+    print '> '.green
     input = gets&.chomp&.strip
 
+    command_execute(input)
+  end
+
+  def command_execute(input)
     case input
-    when nil, /^exit$/i
+    when 'exit'
       exit_program
-    when /^history$/i
+    when 'history'
       show_history
-    when /^help$/i
+    when 'help'
       show_banner
-    when /^(.*)$/
-      process_string($1)
     else
-      puts "Invalid command".red
+      process_string(input)
     end
   end
 
@@ -66,23 +71,18 @@ class AppCLI
 
   def show_history
     @history.each do |result|
-      puts "#{result.description}".green
+      puts result.description.to_s.green
     end
   end
 
   def process_string(input)
-    begin
-      result = @verifier.verify(input)
-      @history << result
+    result = @verifier.verify(input)
+    @history << result
 
-      puts "#{result.description}".green
-
-    rescue Exceptions::InvalidStringError => e
-      puts "#{e.message}".red
-    end
+    puts result.description.to_s.green
+  rescue Exceptions::InvalidStringError => e
+    puts e.message.to_s.red
   end
 end
 
-if __FILE__ == $PROGRAM_NAME
-  AppCLI.new.run
-end
+AppCLI.new.run if __FILE__ == $PROGRAM_NAME

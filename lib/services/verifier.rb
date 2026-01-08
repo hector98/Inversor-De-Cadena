@@ -1,14 +1,15 @@
+# frozen_string_literal: true
+
 # lib/services/verifier.rb
 
 require_relative '../core/string'
 require_relative '../core/result'
 
 module Services
+  # Verifier the string
   class Verifier
     class << self
-
-
-      def verify(input, metadatos={})
+      def verify(input, metadatos = {})
         string = input.is_a?(Core::String) ? input : Core::String.new(input)
         puts "Verifier: #{string.input} -> #{string.inverse_string}"
 

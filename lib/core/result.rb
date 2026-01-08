@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 # lib/core/result.rb
 
 module Core
+  # Result class
   class Result
     attr_reader :string, :inverse_string, :metadatos
 
@@ -8,7 +11,7 @@ module Core
     # @param inverse_string [String] The inverse string
     # @param metadatos [Hash] The additional metadatos
 
-    def initialize(string, inverse_string, metadatos={})
+    def initialize(string, inverse_string, metadatos = {})
       @string = string
       @inverse_string = inverse_string
       @metadatos = metadatos.freeze
@@ -20,7 +23,7 @@ module Core
     end
 
     # @return [String] A JSON representation of the result
-    def to_json(*args)
+    def to_json(*_args)
       {
         string: @string,
         inverse_string: @inverse_string,
